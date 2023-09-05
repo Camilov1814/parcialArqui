@@ -79,6 +79,14 @@ int main() {
 
 
         }else if(numero==2){
+            cout <<"Digite el numero de temperaturas a introducir: ";
+            int n=leerNum();
+            int temp[n];
+            for (int i = 0; i < n; i++) {
+                cout<<"Ingrese la ", i," temperatura: \n";
+                temp[i]=leerNumero();
+
+            }
             
         }
 
