@@ -1,22 +1,50 @@
 Juan Estebas Castaño y Camilo Valencia
 En la clase propuesta para trabajar con la memabrana de teclado se realizó un codigo el cual recorre por medio de ciclos for recorre la matriz y se ve cual fila y columna estan iguales para luego mostrar esta misma interseccion en consola. Este codigo estaba dentro del while(true) en el main.
 
-Sin embargo, para mayor facilidad y como se pedia al usuario ingresar varios valores multiples veces, decidimos poner este codigo dentro que una funcion que retornara el numero entero convirtiendo la cedana de caracteres asi: 
-```
-c++
+Para mayor facilidad y como se pedia al usuario ingresar varios valores multiples veces, decidimos poner este codigo dentro que una funcion que retornara el numero entero convirtiendo la cedana de caracteres asi: 
+```c++
 string cadena = "123";
 int numero = cadena - "0";
 ```
+Ademas de este cambio se añadio la condicional
+```c++
+if(keyMap[i][j]!='*'){
+}
+```
+Esto con el fin de que guardara en la cadena todos los characteres presionados hasta que se oprimiera la tecla '*'.
 
-Al ver que el código no nos quería funcionar decidimos no detenernos en la revisión de la obtención del carácter del teclado y procedimos a hacer los procesos que se encontraban en el parcial es decir hallar la pendiente el intercepto con el eje x y analizar las temperaturas en el punto 1 y 2
+Sin embargo solo funcionaba si se mantenia oprimida la tecla desde el momento que se iniciaba el programa, se intento arreglar por multiples caminos, poniendo banderas para que detectara la parada, forzando la parada con un break, pero nada funcionó.
 
+Al ver que esto no nos funciono decidimos, entonces, continuar con las aplicaciones que se pedian.
+1. Para el primer punto se hizo uso de la formula de una recta teniendo dos puntos
+   
+   m=y<sub>2</sub> - y<sub>1</sub>/(x<sub>2</sub> - x<sub>1</sub>)
+   
+   y-y<sub>1</sub> = m ( x - x<sub>1</sub>)
+   Teniendo en cuenta que se pedia el intercepto con el eje y, es decir cuando la x=0, se despejo la x:
+   ```c++
+   int intercepto= -1*x1*m+y1;
+   ```
 
+2. Para el segundo punto solo se alcanzo a hacer que se pidiera el numero de temperaturas a digitar, y por medio de un ciclo for se piden ese numero de temperaturas.
+   ```c++
+   cout <<"Digite el numero de temperaturas a introducir: ";
+            int n=leerNum();
+            int temp[n];
+            for (int i = 0; i < n; i++) {
+                cout<<"Ingrese la ", i," temperatura: \n";
+                temp[i]=leerNumero();
+            }
+   ```
 
-
-
-
-
-
+Teniendo en cuenta el problema del teclado de membrana y comenzando a las 4:20 pm eso fue lo maximo que pudimos hacer.
+.
+.
+.
+.
+.
+.
+.
 ![](./resources/official_armmbed_example_badge.png)
 # Blinky Mbed OS example
 
