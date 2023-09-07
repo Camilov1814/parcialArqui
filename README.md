@@ -1,4 +1,5 @@
 Juan Estebas Castaño y Camilo Valencia
+
 En la clase propuesta para trabajar con la memabrana de teclado se realizó un codigo el cual recorre por medio de ciclos for recorre la matriz y se ve cual fila y columna estan iguales para luego mostrar esta misma interseccion en consola. Este codigo estaba dentro del while(true) en el main.
 
 Para mayor facilidad y como se pedia al usuario ingresar varios valores multiples veces, decidimos poner este codigo dentro que una funcion que retornara el numero entero convirtiendo la cedana de caracteres asi: 
