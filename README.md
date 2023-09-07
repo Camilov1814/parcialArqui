@@ -2,11 +2,11 @@ Juan Estebas Castaño y Camilo Valencia
 En la clase propuesta para trabajar con la memabrana de teclado se realizó un codigo el cual recorre por medio de ciclos for recorre la matriz y se ve cual fila y columna estan iguales para luego mostrar esta misma interseccion en consola. Este codigo estaba dentro del while(true) en el main.
 
 Sin embargo, para mayor facilidad y como se pedia al usuario ingresar varios valores multiples veces, decidimos poner este codigo dentro que una funcion que retornara el numero entero convirtiendo la cedana de caracteres asi: 
-´´´
+```
 c++
 string cadena = "123";
 int numero = cadena - "0";
-´´´
+```
 
 Al ver que el código no nos quería funcionar decidimos no detenernos en la revisión de la obtención del carácter del teclado y procedimos a hacer los procesos que se encontraban en el parcial es decir hallar la pendiente el intercepto con el eje x y analizar las temperaturas en el punto 1 y 2
 
