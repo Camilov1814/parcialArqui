@@ -62,9 +62,7 @@ string leerNum() {
     if (tecla != "") {
 
       input += tecla;
-      cout << tecla;
-
-      cout.flush();
+      cout << tecla<<flush;
     }
   }
 
@@ -179,7 +177,7 @@ int opcion;
 int main() {
   
 
-    cout << "Elija una opción (solo el número):\n" << endl;
+    cout << "Elija una opción (solo el número) y seguido presione * para aceptar el valor" << endl;
     cout
         << "1. Aplicación calcule pendiente e intercepto mediante dos puntos.\n"
         << endl;
