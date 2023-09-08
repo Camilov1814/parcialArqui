@@ -1,6 +1,6 @@
 # Parcial Arquitectura
 
-### Por: Juan Estebas Castaño y Camilo Valencia
+### Por: Juan Esteban Castaño y Camilo Valencia
 ---
 ## Metodo Principal
 ```c++
