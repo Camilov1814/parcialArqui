@@ -131,12 +131,6 @@ void temperatura() {
 
 void leds() {
 
-  // Determinar periodo de los leds
-//   ledR.period(0.01);
-//   ledG.period(0.01);
-//   ledB.period(0.01);
-
-  // Obtener los colores
   cout << "Digite el valor R: " << endl;
   float red = stoi(leerNum());
 
