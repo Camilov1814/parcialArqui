@@ -5,90 +5,206 @@
 
 #include "mbed.h"
 #include <iostream>
+#include <string>
 
-
-UnbufferedSerial pc(USBTX,USBRX,9600);
+// blinking rate en milisegundos
+#define BLINKING_RATE 200ms
+// conexion serial con el pc
+UnbufferedSerial pc(USBTX, USBRX, 9600);
 using namespace std;
+
+PwmOut ledR(LED1);
+PwmOut ledG(LED2);
+PwmOut ledB(LED3);
+
+void setRGBColor(float red, float green, float blue) {
+  ledR = red;
+  ledG = green;
+  ledB = blue;
+}
+
 const int numRows = 4;
 const int numCols = 3;
 
-char keyMap[numRows][numCols] = {
-  {'1', '2', '3'},
-  {'4', '5', '6'},
-  {'7', '8', '9'},
-  {'*', '0', '#'}
-};
+string keyMap[4][3] = {
+    {"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}, {"*", "0", "#"}};
 
-DigitalOut rowPins[numRows] = {DigitalOut(D2), DigitalOut(D3), DigitalOut(D4), DigitalOut(D5)};
-DigitalIn colPins[numCols] = {DigitalIn(D6), DigitalIn(D7), DigitalIn(D8)};
+DigitalIn rowPins[numRows] = {DigitalIn(D2), DigitalIn(D3), DigitalIn(D4),
+                              DigitalIn(D5)};
+DigitalOut colPins[numCols] = {DigitalOut(D6), DigitalOut(D7), DigitalOut(D8)};
 
-int leerNum(){
-        char num;
-        for (int i = 0; i < numRows; i++) {
-            rowPins[i] = 0;
-            
-            for (int j = 0; j < numCols; j++) {
-                if (!colPins[j]) {
-                    if(keyMap[i][j]!='*'){
-                        num+=keyMap[i][j];
-                        printf("Tecla presionada: %c\n", num);
-                    }else {
-                        break;
-                    }
-                
-                    ThisThread::sleep_for(500ms);  // Evita lecturas múltiples mientras la tecla está presionada
-                }
-            }
+string membrana() {
+  for (int i = 0; i < numCols; i++) {
+    colPins[i] = 0;
 
-            rowPins[i] = 1;
-        }
-        return num-'0';
-        
+    for (int j = 0; j < numRows; j++) {
+      if (rowPins[j] == 0) {
+        while (rowPins[j] == 0)
+          ;
+        colPins[i] = 1;
+        return keyMap[j][i];
+      }
     }
 
-int main() {
-    int num;
-        
-    cout << "Elija una opción (solo el número):\n" << endl;
-    cout << "1. Aplicación calcule pendiente e intercepto mediante dos puntos.\n" <<endl;
-    cout << "2. Calcular promedio y desviación estándar de un conjunto de temperaturas.\n" << endl;
-    cout << "3. Generar colores en un LED RGB: \n"  <<endl;
-    
-    
-    int numero;
+    colPins[i] = 1;
+  }
 
-    while (true) {
-        numero = leerNum();
-        cout<<numero;
-
-        if(numero==1){
-            cout<< "Digite la coordenada x del primer punto\n";
-            int x1=leerNum();
-            cout<< "Digite la coordenada y del primer punto";
-            int y1=leerNum();
-            cout<< "Digite la coordenada x del segundo punto";
-            int x2=leerNum();
-            cout<< "Digite la coordenada y del segundo punto";
-            int y2=leerNum();
-
-            int m=y2-y1/(x2-x1);
-            int intercepto= -1*x1*m+y1;
-            cout << "La pendiente es: ", m;
-            cout << "El intercepto es: " ,intercepto;
-
-
-
-        }else if(numero==2){
-            cout <<"Digite el numero de temperaturas a introducir: ";
-            int n=leerNum();
-            int temp[n];
-            for (int i = 0; i < n; i++) {
-                cout<<"Ingrese la ", i," temperatura: \n";
-                temp[i]=leerNumero();
-
-            }
-            
-        }
-
-    }
+  return "";
 }
+
+string leerNum() {
+  string tecla = "";
+  string input = "";
+
+  while (tecla != "*") {
+    tecla = membrana();
+
+    if (tecla != "") {
+
+      input += tecla;
+      cout << tecla;
+
+      cout.flush();
+    }
+  }
+
+  cout << endl;
+
+  return input;
+}
+
+void pend_inter() {
+  float x1, x2, y1, y2;
+  cout << "Teniendo en cuenta un punto P=(x,y)" << endl;
+  cout << "Para el primer punto: " << endl;
+  cout << "Digite la coordenada en x" << endl;
+  x1 = stoi(leerNum());
+  cout << "Digite la coordenada en y" << endl;
+  y1 = stoi(leerNum());
+  cout << "Para el segundo punto: " << endl;
+  cout << "Digite la coordenada en x" << endl;
+  x2 = stoi(leerNum());
+  cout << "Digite la coordenada en y" << endl;
+  y2 = stoi(leerNum());
+
+  if (x1 == x2) {
+    cout << "La pendiente es indefinida debido a que es una recta vertical y "
+            "la division por 0 es indefinida"
+         << endl;
+  } else {
+    float m = y2 - y1 / (x2 - x1);
+    cout << "La pendiente de la recta es: " << m << endl;
+    float inter = -1 * x1 * m + y1;
+    cout << "El intercepto con el eje y es: " << inter << endl;
+  }
+}
+
+float calcular_promedio(float arr[], int n) {
+  float suma = 0;
+  for (int i = 0; i < n; i++) {
+    suma += arr[i];
+  }
+  return suma / n;
+}
+
+float calcular_desviacion_estandar(float arr[], int n, float promedio) {
+  float suma_cuadrados = 0;
+  for (int i = 0; i < n; i++) {
+    suma_cuadrados += pow(arr[i] - promedio, 2);
+  }
+  return sqrt(suma_cuadrados / n);
+}
+
+void temperatura() {
+  int n;
+  cout << "Ingrese la cantidad de temperaturas a digitar: " << endl;
+  n = stoi(leerNum());
+  float temps[n];
+  int i = 0;
+  for (i = 0; i < n; i++) {
+    cout << "Ingrese la temperatura " << i + 1 << endl;
+    temps[i] = stoi(leerNum());
+  }
+  float promedio = calcular_promedio(temps, n);
+  cout << "El promedio de temperaturas es: " << promedio << endl;
+  float desviacionEst = calcular_desviacion_estandar(temps, n, promedio);
+  cout << "La desviacion Estandar es: " << desviacionEst << endl;
+}
+
+void leds() {
+
+  // Determinar periodo de los leds
+//   ledR.period(0.01);
+//   ledG.period(0.01);
+//   ledB.period(0.01);
+
+  // Obtener los colores
+  cout << "Introduzca la intensidad del rojo (R): " << endl;
+  float red = stoi(leerNum());
+
+  while (red > 255) {
+    cout << "Introduzca una intensidad dentro del rango (0-255): " << endl;
+    red = stoi(leerNum());
+  }
+
+  cout << "Introduzca la intensidad del verde (G): " << endl;
+  float green = stoi(leerNum());
+
+  while (green > 255) {
+    cout << "Introduzca una intensidad dentro del rango (0-255): " << endl;
+    green = stoi(leerNum());
+  }
+
+  cout << "Introduzca la intensidad del azul (B): " << endl;
+  float blue = stoi(leerNum());
+
+  while (blue > 255) {
+    cout << "Introduzca una intensidad dentro del rango (0-255): " << endl;
+    blue = stoi(leerNum());
+  }
+
+  
+
+  // Asignar valor de color a los leds
+  float R = 1-((float)(red / 255.0f));
+  float G = 1-((float)(green / 255.0f));
+  float B = 1-((float)(blue / 255.0f));
+
+  setRGBColor(R,G,B);
+
+  
+}
+
+int opcion;
+int main() {
+  
+
+    cout << "Elija una opción (solo el número):\n" << endl;
+    cout
+        << "1. Aplicación calcule pendiente e intercepto mediante dos puntos.\n"
+        << endl;
+    cout << "2. Calcular promedio y desviación estándar de un conjunto de "
+            "temperaturas.\n"
+         << endl;
+    cout << "3. Generar colores en un LED RGB: \n" << endl;
+
+    // Leer la elección del usuario desde el teclado de membrana
+    while (opcion < 1 || opcion > 3) {
+      cout << "Ingrese una opcion valida" << endl;
+      opcion = stoi(leerNum());
+    }
+
+    switch(opcion) {
+        case 1:
+            pend_inter();
+            break;
+        case 2:
+            temperatura();
+            break;
+        case 3:
+            leds();
+            break;
+    }
+
+}
+
