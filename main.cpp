@@ -53,22 +53,22 @@ string membrana() {
 }
 
 string leerNum() {
-  string tecla = "";
-  string input = "";
+  string caracterPresionado = "";
+  string cadena = "";
 
-  while (tecla != "*") {
-    tecla = membrana();
+  while (caracterPresionado != "*") {
+    caracterPresionado = membrana();
 
-    if (tecla != "") {
+    if (caracterPresionado != "") {
 
-      input += tecla;
-      cout << tecla<<flush;
+      cadena += caracterPresionado;
+      cout << caracterPresionado<<flush;
     }
   }
 
   cout << endl;
 
-  return input;
+  return cadena;
 }
 
 void pend_inter() {
