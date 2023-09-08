@@ -139,27 +139,27 @@ void leds() {
 //   ledB.period(0.01);
 
   // Obtener los colores
-  cout << "Introduzca la intensidad del rojo (R): " << endl;
+  cout << "Digite el valor R: " << endl;
   float red = stoi(leerNum());
 
   while (red > 255) {
-    cout << "Introduzca una intensidad dentro del rango (0-255): " << endl;
+    cout << "Digite un valor dentro del rango [0-255]: " << endl;
     red = stoi(leerNum());
   }
 
-  cout << "Introduzca la intensidad del verde (G): " << endl;
+  cout << "Digite el valor G: " << endl;
   float green = stoi(leerNum());
 
   while (green > 255) {
-    cout << "Introduzca una intensidad dentro del rango (0-255): " << endl;
+    cout << "Digite un valor dentro del rango [0-255]: " << endl;
     green = stoi(leerNum());
   }
 
-  cout << "Introduzca la intensidad del azul (B): " << endl;
+  cout << "Digite valor de B" << endl;
   float blue = stoi(leerNum());
 
   while (blue > 255) {
-    cout << "Introduzca una intensidad dentro del rango (0-255): " << endl;
+    cout << "Digite un valor dentro del rango [0-255]: " << endl;
     blue = stoi(leerNum());
   }
 
